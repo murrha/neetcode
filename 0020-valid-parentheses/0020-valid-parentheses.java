@@ -1,53 +1,36 @@
 class Solution {
     public boolean isValid(String s) {
         /*
-        same type of brackets
-        closed in correct order
-        corresponding same type
+        same type in correct order -> implement with stack
         
-        if it's empty return false
+        push in the opening brackets onto the stack
+        else if we encounter a closing bracket
+            peek function to assign to a char value
+                check if that closing bracket has a matching opening bracket
+                if none of them match -> return false
+        return true if the stack is empty
         
-        stack kind of problem since we have to make sure that the same type of brackets are being matched
+        TC: O(n) -> move through the string
+        SC: O(n) -> creating a stack
         
-        first convert in the string to a char array
-        create a stack to store the character's in
-        
-        for every i in char array
-            push the characters that match the opening bracket {, [, (
-            
-            if the char[i] == {, [, (
-                push onto the stack
-            else if the stack isEmpty
-                return false
-            else
-                peek to see if the closing bracket matches with it's correspondent
-                    if the peek == { && array[i] != } false
-                    if the peek == [ && array[i] != ] false
-                    if the peek == ( && array[i] != ) false
-            
-            
-           return if stack.empty()
         */
         
-       Stack<Character> stack = new Stack<>(); 
-        for(char st: s.toCharArray()){
-            if (st == '{' || st == '(' || st == '['){
-                stack.push(st);
+        Stack<Character> stack = new Stack<>();
+        
+        for(char c: s.toCharArray()){
+            if(c == '(' || c == '{' || c == '['){
+                stack.push(c);
             }
-            else if(stack.isEmpty()){
-                    return false;
-            }
-            else {
+            else if (stack.isEmpty()){
+                return false;
+            }else{
                 char top = stack.pop();
-                if(st == '}' && top != '{') return false; 
-                if(st == ')' && top != '(') return false; 
-                if(st == ']' && top != '[') return false; 
-            } 
-                    
+                if(top == '(' && c != ')') return false; 
+                if(top == '{' && c != '}') return false; 
+                if(top == '[' && c != ']') return false; 
             }
+        }//endfor
+        
         return stack.empty(); 
     }
 }
-
-//time complexity: O(n)
-//space complexity: O(n)
